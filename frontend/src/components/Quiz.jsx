@@ -127,6 +127,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Physical",
     id: "10",
     question: "Do you have enough energy for everyday life?",
     options: [
@@ -138,6 +139,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Psychological",
     id: "11",
     question: "Are you able to accept your bodily appearance?",
     options: [
@@ -149,6 +151,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "12",
     question: "Have you enough money to meet your needs?",
     options: [
@@ -160,6 +163,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "13",
     question:
       "How available to you is the information that you need in your day-to-day life?",
@@ -172,6 +176,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "14",
     question:
       "To what extent do you have the opportunity for leisure activities?",
@@ -184,6 +189,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Psychological",
     id: "15",
     question: "How well are you able to get around?",
     options: [
@@ -195,6 +201,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Physical",
     id: "16",
     question: "How satisfied are you with your sleep?",
     options: [
@@ -206,6 +213,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Physical",
     id: "17",
     question:
       "How satisfied are you with your ability to perform your daily living activities?",
@@ -218,6 +226,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Physical",
     id: "18",
     question: "How satisfied are you with your capacity for work?",
     options: [
@@ -229,6 +238,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Psychological",
     id: "19",
     question: "How satisfied are you with yourself?",
     options: [
@@ -240,6 +250,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Social",
     id: "20",
     question: "How satisfied are you with your personal relationships?",
     options: [
@@ -251,6 +262,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Social",
     id: "21",
     question:
       "How satisfied are you with the support you get from your friends?",
@@ -263,6 +275,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "22",
     question: "How satisfied are you with the conditions of your living place?",
     options: [
@@ -274,6 +287,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "23",
     question: "How satisfied are you with your access to health services?",
     options: [
@@ -285,6 +299,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Environmental",
     id: "24",
     question: "How satisfied are you with your mode of transportation?",
     options: [
@@ -296,6 +311,7 @@ const Data = [
     ],marks:0,
   },
   {
+    domain: "Psychological",
     id: "25",
     question:
       "How often do you have negative feelings, such as blue mood, despair, anxiety, depression?",
@@ -328,16 +344,27 @@ const Quiz = () => {
   }, [question]);
 
   function handleSubmit() {
+    let domainScores = {};
+    // Iterate through each question
+    for (let i = 0; i < questions.length; i++) {
+      const question = questions[i];
+      // Add the marks to the corresponding domain
+      if (!domainScores[question.domain]) {
+        domainScores[question.domain] = 0;
+      }
+      domainScores[question.domain] += question.marks;
+    }
+  
+    // Calculate total score
     let totalScore = 0;
     for (let i = 0; i < questions.length; i++) {
       totalScore += questions[i].marks;
     }
-    setScore(totalScore);
-    console.log("Total Score:", totalScore);
-    // Navigate to result page
-    navigate("/resultpage");
+  
+    // Navigate to result page and pass domain-wise scores and total score as props
+    navigate("/resultpage", { state: { domainScores, totalScore } });
   }
-
+  
   function onSelect(i) {
     setChecked(i);
     question.marks = question.options[i].score;

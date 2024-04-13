@@ -23,7 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/quiz" element={<Quiz />}/>
-          <Route path="/resultpage" elemt={<ResultPage />}/>
+          <Route path="/resultpage" element={<ResultPage />}/>
         </Routes>
         <Footer />
       </div>
