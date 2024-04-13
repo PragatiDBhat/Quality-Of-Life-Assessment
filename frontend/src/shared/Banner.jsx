@@ -3,7 +3,7 @@ import background from '../assets/Photos/worklifebalance-removebg-preview.png'
 import { Link } from 'react-router-dom'; 
 import {motion} from "framer-motion"
 import {fadeIn} from '../variants'
-export const Banner = ({background,heading,subheading,btn1,btn2}) => {
+export const Banner = ({background,heading,subheading,btn1,btn2,link1,link2}) => {
   return (
     <div className='gradientBg rounded-3xl rounded-br-[80px] md:p-9 px-4 py-9 '>
 
@@ -24,8 +24,8 @@ export const Banner = ({background,heading,subheading,btn1,btn2}) => {
             <h2 className='md:text-7xl text-4xl font-bold text-white mb-6 leading-relaxed'> {heading}</h2>
             <p className='text-[#EBEBEB] text-2xl mb-8'>{subheading}</p>
             <div className='space-x-5 space-y-4'>
-            <Link to='/quiz' className='btnPrimary' target="_self">{btn1}</Link>
-            <Link  className='btnPrimary'>{btn2}</Link>
+            <Link to={link1} className='btnPrimary' target="_self">{btn1}</Link>
+            <Link  to={link2} className='btnPrimary' target="_self">{btn2}</Link>
         </div>
         </motion.div>
     

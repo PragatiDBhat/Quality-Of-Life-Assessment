@@ -6,8 +6,10 @@ import ph from '../assets/Photos/physicalhealth.jpg';
 import '../App.css'
 import {motion} from "framer-motion"
 import {fadeIn} from '../variants'
+import { About } from './About'
 export const Explore = () => {
   return (
+    <>
     <div className='my-24 md:px-12 px-4 max-w-screen-2xl  p-4  mx-auto mt-24' id='explore'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
         <motion.div 
@@ -72,5 +74,7 @@ export const Explore = () => {
         </motion.div>
       </div>
     </div>
+    {/* <About /> */}
+    </>
   );
 };

@@ -1,7 +1,18 @@
+// Login.jsx
+
 import React from "react";
-import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
+import { NavLink, useNavigate } from "react-router-dom"; // Import NavLink and useNavigate from react-router-dom
 
 export const Login = () => {
+  const navigate = useNavigate(); // Initialize navigate
+  
+  // Function to handle login
+  const handleLogin = () => {
+    // Perform login logic here
+    // For example, if login is successful, navigate to the home page ("/")
+    navigate("/homepage"); // Navigate to home page
+  };
+
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -27,11 +38,11 @@ export const Login = () => {
                 htmlFor="username"
                 className="block text-gray-700 font-bold mb-2"
               >
-                Username
+                USN
               </label>
               <input
                 type="text"
-                id="username"
+                id="usn"
                 className="form-control w-full md:w-auto px-4 py-2"
                 placeholder="Enter your username"
               />
@@ -54,6 +65,7 @@ export const Login = () => {
               <button
                 className="btnPrimary"
                 type="button"
+                onClick={handleLogin} // Call handleLogin function on button click
               >
                 Login
               </button>

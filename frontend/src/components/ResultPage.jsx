@@ -49,7 +49,7 @@ const ResultPage = () => {
           </ul>
         </div>
         {chartData && (
-          <div className="chart-container" style={{ width: "80%", height: "400px" }}>
+          <div className="chart-container" style={{ width: "80%", height: "300px" }}>
             <Bar
               data={chartData}
               options={{
