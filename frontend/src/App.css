@@ -1,0 +1,29 @@
+ @import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600;700&display=swap');
+
+ body{
+    font-family: 'Jost', sans-serif
+ }
+
+ nav{
+    z-index: 1000 !important;
+ }
+
+ .gradientBg{
+   background: linear-gradient(99deg, #EE9AE5 0%, #5961F9 100%)
+ }
+
+ .btnPrimary{
+   @apply py-3 px-8 bg-secondary font-semibold text-white rounded hover:bg-primary transition-all duration-300
+ }
+ .card {
+   background-color: rgba(255, 255, 255, 0.04);
+   border-radius: 35px;
+   overflow: hidden;
+   position: relative;
+   transition: transform 0.3s ease;
+ }
+ 
+ .card:hover {
+   transform: translateY(-5px);
+ }
+ 
