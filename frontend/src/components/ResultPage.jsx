@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import '../App.css'; // Import your CSS file
@@ -32,7 +32,7 @@ const ResultPage = () => {
   }, [domainScores]);
 
   return (
-    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-lg">
         <h1 className="text-4xl font-bold mb-4">Quiz Result</h1>
         <p className="text-xl text-center mb-4">Total Score: {totalScore}</p>
@@ -49,7 +49,7 @@ const ResultPage = () => {
           </ul>
         </div>
         {chartData && (
-          <div className="chart-container" style={{ width: "80%", height: "300px" }}>
+          <div className="chart-container" style={{ width: "80%", height: "200px" ,backgroundColor: '#ffffff', borderRadius: '10px', color: '#000000' }}>
             <Bar
               data={chartData}
               options={{
@@ -63,6 +63,9 @@ const ResultPage = () => {
             />
           </div>
         )}
+        <div className="exit-button">
+          <Link to="/postlogin" className="btnPrimary btn rounded-lg px-6 py-3 mb-3 mt-15 gap-8">Exit</Link>
+        </div>
       </div>
     </div>
   );

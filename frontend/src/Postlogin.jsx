@@ -33,7 +33,7 @@ function PostLogin() {
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/about" element={<About />} />
-      <Route path="/result" element={<ResultPage />} />
+      <Route path="/quiz/resultpage" element={<ResultPage />} />
       <Route path="/overall" element={<Overall />}/>
       <Route path="/overallfaculty" element={<OverallFaculty />}/>
       <Route path="/teaching" element={<Teaching />}/>

@@ -68,7 +68,7 @@ const RegisterTeacher = () => {
   };
 
   return (
-    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left Column */}
         <div className="flex flex-col justify-center items-center bg-gray-100 py-10 px-8 rounded-l-3xl">

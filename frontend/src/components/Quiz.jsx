@@ -5,7 +5,7 @@ const Data = [
   {
     domain: "Overall",
     id: "0",
-    question: "Do you get the kind of support from others that you need?",
+    question: "How would you rate your quality of life?",
     options: [
       { text: "Very poor", score: 1 },
       { text: "Poor", score: 2 },
@@ -16,7 +16,7 @@ const Data = [
     marks:0,
   },
   {
-    domain: "Overall",
+    domain: "Physical",
     id: "1",
     question:
       "How much do you need any medical treatment to function in your daily life?",
@@ -54,10 +54,10 @@ const Data = [
     ],marks:0,
   },
   {
-    domain: "Physical",
+    domain: "Social",
     id: "4",
     question:
-      "How much do you need any medical treatment to function in your daily life?",
+      "How comfortable do you feel when interacting with others??",
     options: [
       { text: "Very poor", score: 1 },
       { text: "Poor", score: 2 },
@@ -343,27 +343,88 @@ const Quiz = () => {
     console.log(question);
   }, [question]);
 
+  // function handleSubmit() {
+  //   let domainScores = {};
+  //   // Iterate through each question
+  //   for (let i = 0; i < questions.length; i++) {
+  //     const question = questions[i];
+  //     // Add the marks to the corresponding domain
+  //     if (!domainScores[question.domain]) {
+  //       domainScores[question.domain] = 0;
+  //     }
+  //     domainScores[question.domain] += question.marks;
+  //   }
+    
+  //   // Calculate total score
+  //   let totalScore = 0;
+  //   for (let i = 0; i < questions.length; i++) {
+  //     totalScore += questions[i].marks;
+  //   }
+  
+  //   // Navigate to result page and pass domain-wise scores and total score as props
+  //   navigate("resultpage", { state: { domainScores, totalScore } });
+  // }
+
   function handleSubmit() {
+    const domainMinScores = {
+        Overall: 2,
+        Physical: 7,
+        Psychological: 6,
+        Social: 3,
+        Environmental: 8
+    };
+
+    const domainMaxScores = {
+      Overall:10,
+        Physical: 35,
+        Psychological: 30,
+        Social: 15,
+        Environmental: 40
+    };
+
     let domainScores = {};
+    let domainCounts = {};
+    let totalScore = 0;
+
     // Iterate through each question
     for (let i = 0; i < questions.length; i++) {
-      const question = questions[i];
-      // Add the marks to the corresponding domain
-      if (!domainScores[question.domain]) {
-        domainScores[question.domain] = 0;
-      }
-      domainScores[question.domain] += question.marks;
+        const question = questions[i];
+        const domain = question.domain;
+
+        // Add the marks to the corresponding domain
+        if (!domainScores[domain]) {
+            domainScores[domain] = 0;
+            domainCounts[domain] = 0;
+        }
+        domainScores[domain] += question.marks;
+        domainCounts[domain]++;
+        totalScore += question.marks;
     }
-  
-    // Calculate total score
-    let totalScore = 0;
-    for (let i = 0; i < questions.length; i++) {
-      totalScore += questions[i].marks;
-    }
-  
-    // Navigate to result page and pass domain-wise scores and total score as props
-    navigate("/resultpage", { state: { domainScores, totalScore } });
-  }
+
+    // Calculate percentage scores for each domain
+   // Calculate percentage scores for each domain
+   let domainPercentageScores = {};
+   for (const domain in domainScores) {
+       const domainScore = domainScores[domain];
+       const minScore = domainMinScores[domain];
+       const maxScore = domainMaxScores[domain];
+       const domainCount = domainCounts[domain];
+   
+       // Convert score to percentage with two digits after the decimal point
+       const percentageScore = ((domainScore - minScore) / (maxScore - minScore)) * 100;
+       const formattedPercentage = parseFloat(percentageScore.toFixed(2)); // Limit to two digits after decimal
+       console.log(domainScore, domain);
+       domainScores[domain] = formattedPercentage; // Store formatted percentage score back to domainScores
+   
+       domainPercentageScores[domain] = formattedPercentage; // Store formatted percentage score separately if needed
+   }
+   totalScore=((totalScore-26)/(104))*100;
+   const formatted=parseFloat(totalScore.toFixed(2));
+   totalScore=formatted;
+    // Navigate to result page and pass domain-wise scores, total score, and domain percentage scores as props
+    navigate("resultpage", { state: { domainScores, totalScore} });
+}
+
   
   function onSelect(i) {
     setChecked(i);
@@ -387,7 +448,7 @@ const Quiz = () => {
   }
 
   return (
-    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+    <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-lg">
         <h1 className="text-4xl font-bold mb-4">Quiz Title</h1>
         <p className="text-xl text-center mb-4">Question {questionIndex + 1} of {Data.length}</p>

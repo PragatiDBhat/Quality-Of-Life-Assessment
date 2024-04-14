@@ -123,12 +123,45 @@ export const Navbar2 = () => {
                 </div>
             </nav>
             <div className={`space-y-4 px-4 pt-24 pb-5 bg-secondary text-xl ${isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"}`}>
-            <Link to="/explore" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Explore</Link>
-            <Link to="/about" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>About</Link>
-            <Link to="" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Statistics</Link>
-            <Link to="" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Personal</Link>
-                <Link to="/" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Logout</Link>
-            </div>
+    <Link to="explore" className='block text-white hover:text-gray-300 z-10' onClick={toggleMenuOpen}>Explore</Link>
+    <div className="relative inline-block z-10">
+        <button className='block text-white hover:text-gray-300' onClick={toggleStatisticDropdown}>Statistics</button>
+        <ul ref={statisticDropdownRef} className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-1 ${isStatisticDropdownOpen ? 'block' : 'hidden'}`}>
+            <li><Link to="overall" className="block px-4 py-2 hover:bg-gray-100" onClick={toggleMenuOpen}>Overall</Link></li>
+            <li>
+                                        <div className="block px-4 py-2 hover:bg-gray-100" onClick={toggleTeacherDropdown}>Teacher</div>
+                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isTeacherDropdownOpen ? 'block' : 'hidden'}`}>
+                                            <li><Link to="overallfaculty" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
+                                            <li><Link to="teaching" className="block px-4 py-2 hover:bg-gray-100">Teaching</Link></li>
+                                            <li><Link to="nonteaching" className="block px-4 py-2 hover:bg-gray-100">Non-Teaching</Link></li>
+                                            <li><Link to="officestaff" className="block px-4 py-2 hover:bg-gray-100">Office Staff</Link></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <div className="block px-4 py-2 hover:bg-gray-100" onClick={toggleStudentDropdown}>Student</div>
+                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isStudentDropdownOpen ? 'block' : 'hidden'}`}>
+                                            <li><Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
+                                            <li><Link to="be" className="block px-4 py-2 hover:bg-gray-100">BE</Link></li>
+                                            <li><Link to="mtech" className="block px-4 py-2 hover:bg-gray-100">MTech</Link></li>
+                                            <li><Link to="mca" className="block px-4 py-2 hover:bg-gray-100">MCA</Link></li>
+                                            <li><Link to="bba" className="block px-4 py-2 hover:bg-gray-100">BBA</Link></li>
+                                            <li><Link to="bca" className="block px-4 py-2 hover:bg-gray-100">BCA</Link></li>
+                                        </ul>
+                                    </li>
+        </ul>
+    </div>
+    <Link to="about" className='block text-white hover:text-gray-300 z-10' onClick={toggleMenuOpen}>About</Link>
+    <div className="relative inline-block z-10">
+        <button className='block text-white hover:text-gray-300' onClick={togglePersonalDropdown}>Personal</button>
+        <ul ref={personalDropdownRef} className={`absolute top-full left-0 bg-white shadow-md rounded-md py-1 mt-1 ${isPersonalDropdownOpen ? 'block' : 'hidden'}`}>
+            <li><Link to="myscores" className="block px-4 py-2 hover:bg-gray-100" onClick={toggleMenuOpen}>My Scores</Link></li>
+            <li><Link to="comparison" className="block px-4 py-2 hover:bg-gray-100" onClick={toggleMenuOpen}>Comparison</Link></li>
+        </ul>
+    </div>
+    <Link to="/" className='block text-white hover:text-gray-300 z-10' onClick={toggleMenuOpen}>Logout</Link>
+</div>
+
+
         </>
     );
 };

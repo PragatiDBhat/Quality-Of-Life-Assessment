@@ -18,7 +18,7 @@ const LoginTeacher=()=> {
       </div>
 
       {/* Right Column */}
-      <div className="flex flex-col justify-center items-center bg-gray-100 py-10 px-8 rounded-r-3xl">
+      <div className="flex flex-col justify-center items-center bg-gray-100 py-10 px-8 rounded-r-3xl" style={{ paddingTop: '100px' }}>
         <h1 className="text-3xl font-bold mb-8">LOGIN</h1>
         <form className="w-full max-w-md">
           <div className="mb-4">

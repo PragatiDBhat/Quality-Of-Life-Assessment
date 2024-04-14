@@ -94,7 +94,7 @@ const OverallFaculty = () => {
 
     return (
         <div className="container mx-auto p-6" style={{ paddingTop: '100px' }}>
-            <h1 className="text-3xl font-bold mb-6">Overall Health</h1>
+            <h1 className="text-3xl font-bold mb-6">Overall Health of University Staff</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Card for Pie chart */}
                 <div className="card1 bg-white p-6 rounded-lg shadow-md">
