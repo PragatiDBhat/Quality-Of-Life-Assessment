@@ -10,7 +10,7 @@ export const Login = () => {
   const handleLogin = () => {
     // Perform login logic here
     // For example, if login is successful, navigate to the home page ("/")
-    navigate("/homepage"); // Navigate to home page
+    navigate("/postlogin"); // Navigate to home page
   };
 
   return (

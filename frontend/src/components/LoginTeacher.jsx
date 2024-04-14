@@ -51,7 +51,7 @@ const LoginTeacher=()=> {
           </div>
           <div className="flex items-center justify-between">
             <NavLink
-             to='/homepage'
+             to='/postlogin'
               className="btnPrimary"
               type="button"
             >

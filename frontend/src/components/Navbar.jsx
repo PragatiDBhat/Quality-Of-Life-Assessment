@@ -17,6 +17,12 @@ export const Navbar = () => {
         { link: "Explore", path: "explore" },
         { link: "About", path: "about" },
     ];
+    const navItems2 = [
+        { link: "Overview", path: "/" },
+        { link: "Explore", path: "explore" },
+        { link: "About", path: "about" },
+        {link: "Sign up", path:"select"},
+    ];
 
     return (
         <>
@@ -30,7 +36,7 @@ export const Navbar = () => {
                     </div>
 
                     <div className='space-x-12 hidden md:flex items-center'>
-                        <Link to="/login" className='bg-secondary py-2 px-4 transition-all duration-300 rounded hover:text-white hover:bg-indigo-600'>Sign Up</Link>
+                        <Link to="/select" className='bg-secondary py-2 px-4 transition-all duration-300 rounded hover:text-white hover:bg-indigo-600'>Sign Up</Link>
                     </div>
                     <div className='md:hidden'>
                         <button onClick={toggleMenuOpen} className='text-white focus:outline-none text-xl focus:text-gray-300 '>
@@ -40,7 +46,8 @@ export const Navbar = () => {
                 </div>
             </nav>
             <div className={`space-y-4 px-4 pt-24 pb-5 bg-secondary text-xl ${isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"}`}>
-                {navItems.map(({ link, path }) => <Link key={link} to={path} className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>{link}</Link>)}
+                {navItems2.map(({ link, path }) => <Link key={link} to={path} className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>{link}</Link>)}
+                {/* <Link to="/select" className='block text-white hover:text-gray-300'>Sign Up</Link> */}
             </div>
         </>
     );
