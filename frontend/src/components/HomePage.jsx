@@ -4,6 +4,7 @@ import { Banner } from '../shared/Banner'
 import { Explore } from './Explore'
 import { About } from './About'
 import { Navbar2 } from './Navbar2'
+import Feedback from './Feedback'
 const HomePage = () => {
   return (
     <>
@@ -14,6 +15,7 @@ const HomePage = () => {
     </div>
     <Explore/>
     <About />
+    <Feedback />
     </>
   )
 }

@@ -22,6 +22,7 @@ import MCA from './components/MCA';
 import MyScores from './components/MyScores';
 import Comparison from './components/Comparison';
 import EditProfile from './components/EditProfile';
+import Feedback from './components/Feedback';
 
 // Import other post-login components here
 
@@ -49,6 +50,7 @@ function PostLogin() {
       <Route path='/myscores' element={<MyScores/>}/>
       <Route path='/comparison' element={<Comparison />}/>
       <Route path='/editprofile' element={<EditProfile />}/>
+      <Route path='/feedback' element={<Feedback />} />
     </Routes>
     </>
   );
