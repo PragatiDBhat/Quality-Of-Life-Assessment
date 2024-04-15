@@ -334,7 +334,7 @@ const Quiz = () => {
   const questions = [...Data];
   const question = questions[questionIndex];
   const [submitted, setSubmitted] = useState(false);
-
+  const [quizStarted, setQuizStarted] = useState(false); 
   useEffect(() => {
     setPrevSelectedIndex(undefined); // Reset prevSelectedIndex when question changes
   }, [questionIndex]);
@@ -449,58 +449,75 @@ const Quiz = () => {
 
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
-      <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-lg">
-        <h1 className="text-4xl font-bold mb-4">Quiz Title</h1>
-        <p className="text-xl text-center mb-4">Question {questionIndex + 1} of {Data.length}</p>
-        <div className="questions text-center text-black mb-8">
-          <h4 className="text-2xl mb-4">{question.question}</h4>
-          <ul key={question.id} className="list-unstyled">
-            {question.options.map((q, i) => (
-              <li key={i}>
-                <button
-                  className={`btn btn-light border border-white rounded-lg px-4 py-3 mb-3 w-64 ${
-                    checked === i || prevSelectedIndex === i ? "bg-primary text-white" : ""
-                  }`}
-                  value={false}
-                  name="options"
-                  id={`q${i}-option`}
-                  onClick={() => onSelect(i)}
-                >
-                  <label className="text-lg" htmlFor={`q${i}-option`}>
-                    {q.text}
-                  </label>
-                </button>
-              </li>
-            ))}
-          </ul>
+      {quizStarted ? ( // Conditionally render based on quiz start state
+        <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-lg">
+          <h1 className="text-4xl font-bold mb-4">Quiz Title</h1>
+          <p className="text-xl text-center mb-4">Question {questionIndex + 1} of {Data.length}</p>
+          <div className="questions text-center text-black mb-8">
+            <h4 className="text-2xl mb-4">{question.question}</h4>
+            <ul key={question.id} className="list-unstyled">
+              {question.options.map((q, i) => (
+                <li key={i}>
+                  <button
+                    className={`btn btn-light border border-white rounded-lg px-4 py-3 mb-3 w-64 ${
+                      checked === i || prevSelectedIndex === i ? "bg-primary text-white" : ""
+                    }`}
+                    value={false}
+                    name="options"
+                    id={`q${i}-option`}
+                    onClick={() => onSelect(i)}
+                  >
+                    <label className="text-lg" htmlFor={`q${i}-option`}>
+                      {q.text}
+                    </label>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="buttons flex justify-between mt-3 w-full max-w-sm">
+            <button
+              className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
+              onClick={handlePrev}
+              disabled={questionIndex === 0}
+            >
+              Previous
+            </button>
+            {questionIndex === Data.length - 1 ? (
+              <button
+                className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
+                onClick={handleSubmit}
+                disabled={checked === undefined}
+              >
+                Submit
+              </button>
+            ) : (
+              <button
+                className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
+                onClick={handleNext}
+                disabled={checked === undefined}
+              >
+                Next
+              </button>
+            )}
+          </div>
         </div>
-        <div className="buttons flex justify-between mt-3 w-full max-w-sm">
+      ) : (
+        <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-lg">
+          <h1 className="text-4xl font-bold mb-4">Guidelines</h1>
+          <ul className="text-xl text-center mb-4">
+            <li>All questions are compulsory</li>
+            <li>Select an option and click on next to go to the next question</li>
+            <li>Click on previous to see the previous question</li>
+          </ul>
           <button
             className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
-            onClick={handlePrev}
-            disabled={questionIndex === 0}
+            onClick={() => setQuizStarted(true)} // Set quiz start state to true when clicked
           >
-            Previous
+            Start Quiz
           </button>
-          {questionIndex === Data.length - 1 ? (
-            <button
-              className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
-              onClick={handleSubmit}
-              disabled={checked === undefined}
-            >
-              Submit
-            </button>
-          ) : (
-            <button
-              className="btnPrimary btn rounded-lg px-4 py-2 mb-3"
-              onClick={handleNext}
-              disabled={checked === undefined}
-            >
-              Next
-            </button>
-          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

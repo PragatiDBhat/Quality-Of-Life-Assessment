@@ -7,7 +7,7 @@ export const Footer = () => {
       <div className='my-12 flex flex-col md:flex-row gap-8'>
         <div className='md:w-1/2 space-y-8'>
           <a href='/' className='text-2xl font-semibold flex items-center space-x-3 text-primary '><span className='text-white'>QOLA</span></a>
-          <p className='md:w-1/2'>Quality of life Assessment</p>
+          <p className='md:w-1/2'>Quality of life Analyzer</p>
         </div>
         <div className='md:w-1/2 flex flex-col md:flex-row flex-wrap justify-between gap-8 items-start'>
           <div className='space-y-6 mt-5'>
