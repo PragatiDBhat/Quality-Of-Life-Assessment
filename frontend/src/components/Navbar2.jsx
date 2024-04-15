@@ -3,13 +3,14 @@ import '../App.css';
 import { TiThMenu } from "react-icons/ti";
 import { FaTimes } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-
+import { CgProfile } from "react-icons/cg";
 export const Navbar2 = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isStatisticDropdownOpen, setStatisticDropdownOpen] = useState(false);
     const [isPersonalDropdownOpen, setPersonalDropdownOpen] = useState(false);
     const [isTeacherDropdownOpen, setTeacherDropdownOpen] = useState(false);
     const [isStudentDropdownOpen, setStudentDropdownOpen] = useState(false);
+    const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
     const toggleMenuOpen = () => {
         setMenuOpen(!isMenuOpen);
@@ -33,6 +34,9 @@ export const Navbar2 = () => {
                 setTeacherDropdownOpen(false);
                 setStudentDropdownOpen(!isStudentDropdownOpen);
                 break;
+            case 'profile':
+                setProfileDropdownOpen(!isProfileDropdownOpen);
+                break;
             default:
                 break;
         }
@@ -52,6 +56,9 @@ export const Navbar2 = () => {
             case 'student':
                 setStudentDropdownOpen(!isStudentDropdownOpen);
                 break;
+            case 'profile':
+                setProfileDropdownOpen(!isProfileDropdownOpen);
+                break;
             default:
                 break;
         }
@@ -59,18 +66,21 @@ export const Navbar2 = () => {
 
     const statisticDropdownRef = useRef(null);
     const personalDropdownRef = useRef(null);
+    const profileDropdownRef = useRef(null);
 
     useEffect(() => {
         const closeDropdowns = (e) => {
             if (
                 statisticDropdownRef.current &&
                 !statisticDropdownRef.current.contains(e.target) &&
-                !personalDropdownRef.current.contains(e.target)
+                !personalDropdownRef.current.contains(e.target) &&
+                !profileDropdownRef.current.contains(e.target)
             ) {
                 setStatisticDropdownOpen(false);
                 setPersonalDropdownOpen(false);
                 setStudentDropdownOpen(false);
                 setTeacherDropdownOpen(false);
+                setProfileDropdownOpen(false);
             }
         };
 
@@ -96,11 +106,11 @@ export const Navbar2 = () => {
                             </li>
                             <li className="relative">
                                 <div className='block hover:text-gray-300 cursor-pointer' onClick={() => toggleDropdownDesktop('statistic')}>Statistic</div>
-                                <ul ref={statisticDropdownRef} className={`absolute top-full left-0 bg-white shadow-md rounded-md py-1 mt-1 ${isStatisticDropdownOpen ? 'block' : 'hidden'}`}>
+                                <ul ref={statisticDropdownRef} className={`absolute top-full left-0 bg-white shadow-md rounded-md py-1 mt-1 ${isStatisticDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                     <li><Link to="overall" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
                                     <li>
                                         <div className="block px-4 py-2 hover:bg-gray-100" onClick={() => toggleDropdownDesktop('teacher')}>Teacher</div>
-                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isTeacherDropdownOpen ? 'block' : 'hidden'}`}>
+                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isTeacherDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                             <li><Link to="overallfaculty" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
                                             <li><Link to="teaching" className="block px-4 py-2 hover:bg-gray-100">Teaching</Link></li>
                                             <li><Link to="nonteaching" className="block px-4 py-2 hover:bg-gray-100">Non-Teaching</Link></li>
@@ -109,7 +119,7 @@ export const Navbar2 = () => {
                                     </li>
                                     <li>
                                         <div className="block px-4 py-2 hover:bg-gray-100" onClick={() => toggleDropdownDesktop('student')}>Student</div>
-                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isStudentDropdownOpen ? 'block' : 'hidden'}`}>
+                                        <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isStudentDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                             <li><Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
                                             <li><Link to="be" className="block px-4 py-2 hover:bg-gray-100">BE</Link></li>
                                             <li><Link to="mtech" className="block px-4 py-2 hover:bg-gray-100">MTech</Link></li>
@@ -122,7 +132,7 @@ export const Navbar2 = () => {
                             </li>
                             <li className="relative">
                                 <div className='block hover:text-gray-300 cursor-pointer' onClick={() => toggleDropdownDesktop('personal')}>Personal</div>
-                                <ul ref={personalDropdownRef} className={`absolute top-full left-0 bg-white shadow-md rounded-md py-1 mt-1 ${isPersonalDropdownOpen ? 'block' : 'hidden'}`}>
+                                <ul ref={personalDropdownRef} className={`absolute top-full left-0 bg-white shadow-md rounded-md py-1 mt-1 ${isPersonalDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                     <li>
                                         <Link to="myscores" className="block px-4 py-2 hover:bg-gray-100">My Scores</Link>
                                     </li>
@@ -134,8 +144,24 @@ export const Navbar2 = () => {
                         </ul>
                     </div>
 
-                    <div className='space-x-10 hidden md:flex items-center'>
-                        <Link to="/" className='bg-secondary py-2 px-4 transition-all duration-300 rounded hover:text-white hover:bg-indigo-600'>Logout</Link>
+                    <div className='space-x-10 hidden md:flex items-center relative'>
+                        <div className="relative">
+                            <button onClick={() => toggleDropdownDesktop('profile')} className='focus:outline-none'>
+                                {/* <img src={Profile} alt="Profile" className="w-10 h-10 rounded-full cursor-pointer" /> */}
+                                <CgProfile className='w-10 h-10 rounded-full cursor-pointer' />
+                            </button>
+                            <ul ref={profileDropdownRef} className={`absolute top-full right-0 bg-white shadow-md rounded-md py-1 mt-1 px-3 ${isProfileDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
+                                <li>
+                                    <Link to="editprofile" className="block px-4 py-2 hover:bg-gray-100">Edit Profile</Link>
+                                </li>
+                                <li>
+                                    <Link to="settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
+                                </li>
+                                <li>
+                                    <Link to="/" className="block px-4 py-2 hover:bg-gray-100" onClick={toggleMenuOpen}>Logout</Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className='md:hidden'>
                         <button onClick={toggleMenuOpen} className='text-white focus:outline-none text-xl focus:text-gray-300 '>
@@ -145,27 +171,25 @@ export const Navbar2 = () => {
                 </div>
             </nav>
             <div className={`space-y-4 px-4 pt-24 pb-5 bg-secondary text-xl ${isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"}`} style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }}>
-    <Link to="explore" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Explore</Link>
-    <Link to="about" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>About</Link>
-    <Link to="overall" className="block px-4 py-2 hover:bg-gray-100">Overall</Link>
-    <Link to="overallfaculty" className="block px-4 py-2 hover:bg-gray-100">Overall of faculty</Link>
-    <Link to="teaching" className="block px-4 py-2 hover:bg-gray-100">Teaching</Link>
-    <Link to="nonteaching" className="block px-4 py-2 hover:bg-gray-100">Non-Teaching</Link>
-    <Link to="officestaff" className="block px-4 py-2 hover:bg-gray-100">Office Staff</Link>
-    <Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall of Student</Link>
-    <Link to="be" className="block px-4 py-2 hover:bg-gray-100">BE</Link>
-    <Link to="mtech" className="block px-4 py-2 hover:bg-gray-100">MTech</Link>
-    <Link to="mca" className="block px-4 py-2 hover:bg-gray-100">MCA</Link>
-    <Link to="bba" className="block px-4 py-2 hover:bg-gray-100">BBA</Link>
-    <Link to="bca" className="block px-4 py-2 hover:bg-gray-100">BCA</Link>
-    <Link to="myscores" className="block px-4 py-2 hover:bg-gray-100">My Scores</Link>
-    <Link to="comparison" className="block px-4 py-2 hover:bg-gray-100">Comparison</Link>
-    <Link to="/" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Logout</Link>
-</div>
-
+                <Link to="explore" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Explore</Link>
+                <Link to="about" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>About</Link>
+                <Link to="overall" className="block px-4 py-2 hover:bg-gray-100">Overall</Link>
+                <Link to="overallfaculty" className="block px-4 py-2 hover:bg-gray-100">Overall of faculty</Link>
+                <Link to="teaching" className="block px-4 py-2 hover:bg-gray-100">Teaching</Link>
+                <Link to="nonteaching" className="block px-4 py-2 hover:bg-gray-100">Non-Teaching</Link>
+                <Link to="officestaff" className="block px-4 py-2 hover:bg-gray-100">Office Staff</Link>
+                <Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall of Student</Link>
+                <Link to="be" className="block px-4 py-2 hover:bg-gray-100">BE</Link>
+                <Link to="mtech" className="block px-4 py-2 hover:bg-gray-100">MTech</Link>
+                <Link to="mca" className="block px-4 py-2 hover:bg-gray-100">MCA</Link>
+                <Link to="bba" className="block px-4 py-2 hover:bg-gray-100">BBA</Link>
+                <Link to="bca" className="block px-4 py-2 hover:bg-gray-100">BCA</Link>
+                <Link to="myscores" className="block px-4 py-2 hover:bg-gray-100">My Scores</Link>
+                <Link to="comparison" className="block px-4 py-2 hover:bg-gray-100">Comparison</Link>
+                <Link to="/" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Logout</Link>
+            </div>
         </>
     );
 };
 
 export default Navbar2;
-
