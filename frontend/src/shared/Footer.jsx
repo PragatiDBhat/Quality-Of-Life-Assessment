@@ -30,7 +30,7 @@ export const Footer = () => {
       </div>
         <hr />
         <div>
-          <p className='text-center'>@WHOQOL All rights reserved</p>
+          <p className='text-center'>@QOLA All rights reserved</p>
         </div>
     </div>
   )
