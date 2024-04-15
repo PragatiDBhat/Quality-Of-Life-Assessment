@@ -96,7 +96,7 @@ export const Navbar2 = () => {
             <nav className='bg-white md:px-14 p-4 max-w-screen-2xl border-b mx-auto text-primary fixed top-0 right-0 left-0'>
                 <div className='text-lg container mx-auto flex justify-between items-center font-medium'>
                     <div className='flex items-center space-x-14'>
-                        <Link to="" className='text-2xl font-semibold flex items-center space-x-3 text-primary'>WHOQOL</Link>
+                        <Link to="" className='text-2xl font-semibold flex items-center space-x-3 text-primary'>QOLA</Link>
                         <ul className='md:flex space-x-5 hidden'>
                             <li>
                                 <Link to="explore" className='block hover:text-gray-300 cursor-pointer'>Explore</Link>

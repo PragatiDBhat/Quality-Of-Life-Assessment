@@ -29,7 +29,7 @@ export const Navbar = () => {
             <nav className='bg-white md:px-14 p-4 max-w-screen-2xl border-b mx-auto text-primary fixed top-0 right-0 left-0'>
                 <div className='text-lg container mx-auto flex justify-between items-center font-medium'>
                     <div className='flex items-center space-x-14'>
-                        <a href="/" className='text-2xl font-semibold flex items-center space-x-3 text-primary'>WHOQOL</a>
+                        <a href="/" className='text-2xl font-semibold flex items-center space-x-3 text-primary'>QOLA</a>
                         <ul className='md:flex space-x-12 hidden'>
                             {navItems.map(({ link, path }) => <Link key={link} to={path} className='block hover:text-gray-300 cursor-pointer'>{link}</Link>)}
                         </ul>
