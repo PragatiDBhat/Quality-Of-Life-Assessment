@@ -114,6 +114,8 @@ const ResultPage = () => {
         </div>
         <div className="exit-button">
           <Link to="/postlogin" className="btnPrimary btn rounded-lg px-6 py-3 mb-3 mt-15 gap-8">Exit</Link>
+          <span style={{ marginRight: '10px' }}></span>
+          <Link to="/postlogin/quiz" className="btnPrimary btn rounded-lg px-6 py-3 mb-3 mt-15 gap-8">Restart</Link>
         </div>
       </div>
     </div>

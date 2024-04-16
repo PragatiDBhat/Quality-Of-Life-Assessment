@@ -189,7 +189,7 @@ const Data = [
     ],marks:0,
   },
   {
-    domain: "Psychological",
+    domain: "Physical",
     id: "15",
     question: "How well are you able to get around?",
     options: [
@@ -414,6 +414,7 @@ const Quiz = () => {
        const percentageScore = ((domainScore - minScore) / (maxScore - minScore)) * 100;
        const formattedPercentage = parseFloat(percentageScore.toFixed(2)); // Limit to two digits after decimal
        console.log(domainScore, domain);
+       console.log(formattedPercentage, domain);
        domainScores[domain] = formattedPercentage; // Store formatted percentage score back to domainScores
    
        domainPercentageScores[domain] = formattedPercentage; // Store formatted percentage score separately if needed
