@@ -187,7 +187,7 @@ export const Register = () => {
               >
                 <option value="">Select your degree</option>
                 <option value="undergraduate">Under graduate</option>
-                <option value="graduate">Graduate</option>
+                <option value="graduate">Post-Graduate</option>
               </select>
             </div>
             {/* Degree Dropdown */}

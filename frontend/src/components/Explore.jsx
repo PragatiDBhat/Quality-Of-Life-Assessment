@@ -11,7 +11,7 @@ export const Explore = () => {
   return (
     <>
     <div className='my-24 md:px-12 px-4 max-w-screen-2xl  p-4  mx-auto mt-24' id='explore'>
-    <h1 className="text-3xl font-bold mb-6 justify-center">Four Pillars of Quality of Life</h1>
+    <h1 className="text-3xl font-bold mb-6 justify-center">Pillars of Quality of Life</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
         
         <motion.div 

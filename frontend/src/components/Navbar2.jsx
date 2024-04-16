@@ -121,7 +121,7 @@ export const Navbar2 = () => {
                                         <div className="block px-4 py-2 hover:bg-gray-100" onClick={() => toggleDropdownDesktop('student')}>Student</div>
                                         <ul className={`absolute top-0 left-full bg-white shadow-md rounded-md py-1 mt-0 ml-5 ${isStudentDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                             <li><Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall</Link></li>
-                                            <li><Link to="graduate" className="block px-4 py-2 hover:bg-gray-100">Graduate</Link></li>
+                                            <li><Link to="graduate" className="block px-4 py-2 hover:bg-gray-100">Post-Graduate</Link></li>
                                             <li><Link to="undergraduate" className="block px-4 py-2 hover:bg-gray-100">Undergraduate</Link></li>
                                         </ul>
                                     </li>
@@ -176,7 +176,7 @@ export const Navbar2 = () => {
                 <Link to="nonteaching" className="block px-4 py-2 hover:bg-gray-100">Non-Teaching</Link>
                 <Link to="officestaff" className="block px-4 py-2 hover:bg-gray-100">Office Staff</Link>
                 <Link to="overallstudents" className="block px-4 py-2 hover:bg-gray-100">Overall of Student</Link>
-                <Link to="graduate" className="block px-4 py-2 hover:bg-gray-100">Graduate</Link>
+                <Link to="graduate" className="block px-4 py-2 hover:bg-gray-100">Post-Graduate</Link>
                 <Link to="undergraduate" className="block px-4 py-2 hover:bg-gray-100">Undergraduate</Link>
                 <Link to="myscores" className="block px-4 py-2 hover:bg-gray-100">My Scores</Link>
                 <Link to="comparison" className="block px-4 py-2 hover:bg-gray-100">Comparison</Link>
