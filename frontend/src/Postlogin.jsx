@@ -23,6 +23,8 @@ import MyScores from './components/MyScores';
 import Comparison from './components/Comparison';
 import EditProfile from './components/EditProfile';
 import Feedback from './components/Feedback';
+import Graduate from './components/Graduate';
+import Undergraduate from './components/Undergraduate';
 
 // Import other post-login components here
 
@@ -42,11 +44,13 @@ function PostLogin() {
       <Route path="/nonteaching" element={<NonTeaching />}/>
       <Route path="/officestaff" element={<OfficeStaff />}/>
       <Route path="/overallstudents" element={<OverallStudents />}/>
-      <Route path="/be" element={<BE />}/>
+      <Route path="/graduate" element={<Graduate />} />
+      <Route path="/undergraduate" element={<Undergraduate />} />
+      {/* <Route path="/be" element={<BE />}/>
       <Route path="/mtech" element={<MTech />}/>
       <Route path="/bba" element={<BBA/>}/>
       <Route path="/bca" element={<BCA/>}/>
-      <Route path="/mca" element={<MCA />}/>
+      <Route path="/mca" element={<MCA />}/> */}
       <Route path='/myscores' element={<MyScores/>}/>
       <Route path='/comparison' element={<Comparison />}/>
       <Route path='/editprofile' element={<EditProfile />}/>

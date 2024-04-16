@@ -11,6 +11,7 @@ export const Register = () => {
     repeatPassword: "",
     dob: "",
     age: "",
+    status: "",
     degree: "",
     semester: "",
     gender: "",
@@ -28,7 +29,32 @@ export const Register = () => {
     // Add your form submission logic here
     console.log(formData);
   };
-
+  const populateDesignationOptions = () => {
+    const { status } = formData;
+    switch (status) {
+      case 'graduate':
+        return (
+          <>
+            <option value="">Select degree</option>
+            <option value="mtech">MTech</option>
+            <option value="mca">MCA</option>
+            <option value="mba">MBA</option>
+          </>
+        );
+      case 'undergraduate':
+        return (
+          <>
+            <option value="">Select degree</option>
+            <option value="be">BE</option>
+            <option value="bba">BBA</option>
+            <option value="bca">BCA</option>
+            <option value="architecture">Architecture</option>
+          </>
+        );
+      default:
+        return <option value="">Select degree</option>;
+    }
+  };
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -147,10 +173,27 @@ export const Register = () => {
                 required
               />
             </div>
+            <div className="mb-4">
+              <label htmlFor="status" className="block text-gray-700 font-bold mb-2">
+                Select your status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="form-select w-full px-4 py-2"
+                required
+              >
+                <option value="">Select your degree</option>
+                <option value="undergraduate">Under graduate</option>
+                <option value="graduate">Graduate</option>
+              </select>
+            </div>
             {/* Degree Dropdown */}
             <div className="mb-4">
               <label htmlFor="degree" className="block text-gray-700 font-bold mb-2">
-                Degree
+               Degree
               </label>
               <select
                 id="degree"
@@ -160,11 +203,7 @@ export const Register = () => {
                 className="form-select w-full px-4 py-2"
                 required
               >
-                <option value="">Select your degree</option>
-                <option value="BE">BE</option>
-                <option value="MBA">MBA</option>
-                <option value="Mtech">Mtech</option>
-                <option value="BBA">BBA</option>
+                {populateDesignationOptions()}
               </select>
             </div>
             {/* Semester */}
