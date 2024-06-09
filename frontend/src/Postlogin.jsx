@@ -46,11 +46,7 @@ function PostLogin() {
       <Route path="/overallstudents" element={<OverallStudents />}/>
       <Route path="/graduate" element={<Graduate />} />
       <Route path="/undergraduate" element={<Undergraduate />} />
-      {/* <Route path="/be" element={<BE />}/>
-      <Route path="/mtech" element={<MTech />}/>
-      <Route path="/bba" element={<BBA/>}/>
-      <Route path="/bca" element={<BCA/>}/>
-      <Route path="/mca" element={<MCA />}/> */}
+      
       <Route path='/myscores' element={<MyScores/>}/>
       <Route path='/comparison' element={<Comparison />}/>
       <Route path='/editprofile' element={<EditProfile />}/>

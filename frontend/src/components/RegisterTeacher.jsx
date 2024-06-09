@@ -16,6 +16,7 @@ const RegisterTeacher = () => {
     gender: '',
     university_role: '',
     designation: '',
+    occupation:"teacher",
   });
 
   // Function to handle form input changes

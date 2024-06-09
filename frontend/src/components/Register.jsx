@@ -15,6 +15,7 @@ export const Register = () => {
     degree: "",
     semester: "",
     gender: "",
+    occupation:"student",
   });
 
   // Function to handle form input changes
