@@ -1,29 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import '../App.css';
+import axios from 'axios'; // Import axios for making HTTP requests
+
 const MyScores = () => {
-    // Sample data for demonstration purposes
-    const data = {
-        labels: ['2022-04-10 08:00', '2022-04-10 12:00', '2022-04-11 08:00', '2022-04-11 12:00'],
+    const [scores, setScores] = useState([]);
+
+    // Fetch data from backend upon component mount
+    useEffect(() => {
+        const fetchScores = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/scoredisplay');
+                setScores(response.data);
+            } catch (error) {
+                console.error('Error fetching scores:', error);
+            }
+        };
+
+        fetchScores();
+    }, []); // Empty dependency array ensures the effect runs only once on mount
+
+    // Data structure for chart initialization
+    const chartData = {
+        labels: scores.map(score => score.time), // Use 'time' as labels (you may need to format this as per your requirement)
         datasets: [
             {
                 label: 'Physical',
-                data: [30, 20, 25, 25],
+                data: scores.map(score => score.ph),
                 backgroundColor: '#FF6384',
             },
             {
                 label: 'Environmental',
-                data: [15, 25, 20, 18],
+                data: scores.map(score => score.eh),
                 backgroundColor: '#36A2EB',
             },
             {
                 label: 'Psychological',
-                data: [25, 22, 28, 30],
+                data: scores.map(score => score.mh),
                 backgroundColor: '#FFCE56',
             },
             {
                 label: 'Social',
-                data: [20, 28, 22, 25],
+                data: scores.map(score => score.sh),
                 backgroundColor: '#4BC0C0',
             },
         ],
@@ -60,7 +77,11 @@ const MyScores = () => {
         <div className="container mx-auto p-6" style={{ paddingTop: '100px' }}>
             <h1 className="text-3xl font-bold mb-6">Domain Scores Over Time</h1>
             <div className="bg-white p-6 rounded-lg shadow-md">
-                <Bar data={data} options={options} />
+                {scores.length > 0 ? (
+                    <Bar data={chartData} options={options} />
+                ) : (
+                    <p>No scores found for the authenticated user</p>
+                )}
             </div>
         </div>
     );

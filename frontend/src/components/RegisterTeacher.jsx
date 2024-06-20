@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import Service from '../services/service'; // Import the Service class
 
 const RegisterTeacher = () => {
-  // State variables to store form data
+  const service = new Service(); // Create an instance of the Service class
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,23 +18,33 @@ const RegisterTeacher = () => {
     gender: '',
     university_role: '',
     designation: '',
-    occupation:"teacher",
+    occupation: "teacher",
   });
 
-  // Function to handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log(formData);
+    if (formData.password !== formData.repeatPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const service = new Service(); // Create an instance of the Service class
+      const response = await service.addTeacher(formData);
+      console.log('Teacher registered successfully', response);
+      // Handle success (e.g., show a success message or redirect to another page)
+    } catch (error) {
+      console.error('Error registering teacher', error);
+      // Handle error (e.g., show an error message)
+      alert("Email already registered");
+    }
   };
 
-  // Function to dynamically populate designation options based on university role
   const populateDesignationOptions = () => {
     const { university_role } = formData;
     switch (university_role) {
@@ -71,15 +83,11 @@ const RegisterTeacher = () => {
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left Column */}
         <div className="flex flex-col justify-center items-center bg-gray-100 py-10 px-8 rounded-l-3xl">
           <h1 className="text-3xl font-bold mb-4">Register</h1>
           <form className="w-full max-w-md" onSubmit={handleSubmit}>
-            {/* Name */}
             <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-                Name
-              </label>
+              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">Name</label>
               <input
                 type="text"
                 id="name"
@@ -91,11 +99,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Email */}
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-                Email
-              </label>
+              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
               <input
                 type="email"
                 id="email"
@@ -107,11 +112,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Employee ID */}
             <div className="mb-4">
-              <label htmlFor="emp_id" className="block text-gray-700 font-bold mb-2">
-                Employee ID
-              </label>
+              <label htmlFor="emp_id" className="block text-gray-700 font-bold mb-2">Employee ID</label>
               <input
                 type="text"
                 id="emp_id"
@@ -123,11 +125,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Password */}
             <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
-                Password
-              </label>
+              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
               <input
                 type="password"
                 id="password"
@@ -139,11 +138,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Repeat Password */}
             <div className="mb-4">
-              <label htmlFor="repeatPassword" className="block text-gray-700 font-bold mb-2">
-                Repeat Password
-              </label>
+              <label htmlFor="repeatPassword" className="block text-gray-700 font-bold mb-2">Repeat Password</label>
               <input
                 type="password"
                 id="repeatPassword"
@@ -155,11 +151,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Date of Birth */}
             <div className="mb-4">
-              <label htmlFor="dob" className="block text-gray-700 font-bold mb-2">
-                Date of Birth
-              </label>
+              <label htmlFor="dob" className="block text-gray-700 font-bold mb-2">Date of Birth</label>
               <input
                 type="date"
                 id="dob"
@@ -170,11 +163,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Age */}
             <div className="mb-4">
-              <label htmlFor="age" className="block text-gray-700 font-bold mb-2">
-                Age
-              </label>
+              <label htmlFor="age" className="block text-gray-700 font-bold mb-2">Age</label>
               <input
                 type="number"
                 id="age"
@@ -186,11 +176,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Qualification */}
             <div className="mb-4">
-              <label htmlFor="qualification" className="block text-gray-700 font-bold mb-2">
-                Qualification
-              </label>
+              <label htmlFor="qualification" className="block text-gray-700 font-bold mb-2">Qualification</label>
               <input
                 type="text"
                 id="qualification"
@@ -202,11 +189,8 @@ const RegisterTeacher = () => {
                 required
               />
             </div>
-            {/* Experience */}
             <div className="mb-4">
-              <label htmlFor="experience" className="block text-gray-700 font-bold mb-2">
-                Experience
-              </label>
+              <label htmlFor="experience" className="block text-gray-700 font-bold mb-2">Experience</label>
               <input
                 type="text"
                 id="experience"
@@ -219,9 +203,7 @@ const RegisterTeacher = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="gender" className="block text-gray-700 font-bold mb-2">
-                Gender
-              </label>
+              <label htmlFor="gender" className="block text-gray-700 font-bold mb-2">Gender</label>
               <select
                 id="gender"
                 name="gender"
@@ -236,11 +218,8 @@ const RegisterTeacher = () => {
                 <option value="Other">Other</option>
               </select>
             </div>
-            {/* University Role Dropdown */}
             <div className="mb-4">
-              <label htmlFor="university_role" className="block text-gray-700 font-bold mb-2">
-                University Role
-              </label>
+              <label htmlFor="university_role" className="block text-gray-700 font-bold mb-2">University Role</label>
               <select
                 id="university_role"
                 name="university_role"
@@ -255,12 +234,8 @@ const RegisterTeacher = () => {
                 <option value="office-staff">Office Staff</option>
               </select>
             </div>
-            
-            {/* Designation Dropdown */}
             <div className="mb-4">
-              <label htmlFor="designation" className="block text-gray-700 font-bold mb-2">
-                Designation
-              </label>
+              <label htmlFor="designation" className="block text-gray-700 font-bold mb-2">Designation</label>
               <select
                 id="designation"
                 name="designation"
@@ -272,28 +247,15 @@ const RegisterTeacher = () => {
                 {populateDesignationOptions()}
               </select>
             </div>
-            {/* Register Button */}
             <div className="flex items-center justify-between">
-              <button
-                className="btnPrimary"
-                type="submit"
-              >
-                Register
-              </button>
+              <button className="btnPrimary" type="submit">Register</button>
             </div>
           </form>
         </div>
-
-        {/* Right Column */}
         <div className="flex flex-col justify-center items-center gradientBg text-white py-10 px-8 rounded-r-3xl">
           <h1 className="text-3xl font-bold mb-8">Already Registered?</h1>
           <p className="text-lg text-center mb-4">Login Here</p>
-          <NavLink
-            to="/loginteacher"
-            className="btnPrimary bg-white text-primary rounded-pill pb-2 w-50 hover:text-white"
-          >
-            Login
-          </NavLink>
+          <NavLink to="/loginteacher" className="btnPrimary bg-white text-primary rounded-pill pb-2 w-50 hover:text-white">Login</NavLink>
         </div>
       </div>
     </div>

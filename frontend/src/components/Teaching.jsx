@@ -1,65 +1,126 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import '../App.css';
-
+import axios from "axios";
 const Teaching = () => {
     // Sample data for demonstration purposes
-    const overallData = {
-        labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
-        datasets: [
-            {
-                data: [30, 20, 25, 25],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-            },
-        ],
-    };
+    const [overallData, setOverallData] = useState(null);
+    const [genderWise, setGenderWise] = useState(null);
+    const [typeWise,setTypeWise]=useState(null);
+    useEffect(() => {
+        const fetchOverallData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-teaching');
+                setOverallData(response.data);
+            } catch (error) {
+                console.error('Error fetching overall average scores:', error);
+            }
+        };
 
+        fetchOverallData();
+    }, []);
+
+    useEffect(() => {
+        const fetchGenderData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-teaching-gender-wise');
+                setGenderWise(response.data);
+            } catch (error) {
+                console.error('Error fetching gender-wise average scores:', error);
+            }
+        };
+
+        fetchGenderData();
+    }, []);
+    useEffect(() => {
+        const fetchTypeData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-teaching-designation-wise');
+                setTypeWise(response.data);
+            } catch (error) {
+                console.error('Error fetching gender-wise average scores:', error);
+            }
+        };
+
+        fetchTypeData();
+    }, []);
     const genderData = {
         labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
         datasets: [
             {
                 label: 'Male',
-                data: [40, 25, 30, 35],
+                data: genderWise && genderWise.male
+                    ? [genderWise.male.averagePh, genderWise.male.averageEh, genderWise.male.averageMh, genderWise.male.averageSh]
+                    : [0, 0, 0, 0],
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
             },
             {
                 label: 'Female',
-                data: [35, 30, 28, 32],
+                data: genderWise && genderWise.female
+                    ? [genderWise.female.averagePh, genderWise.female.averageEh, genderWise.female.averageMh, genderWise.female.averageSh]
+                    : [0, 0, 0, 0],
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
             },
         ],
     };
 
+
     const employeeData = {
         labels: ['Physical', 'Psychological', 'Environmental', 'Social'],
         datasets: [
             {
-                label: 'Associate Professor',
-                data: [28, 30, 25, 45],
+                label: 'Professor',
+                data: [
+                    typeWise && typeWise.professor ? typeWise.professor.averagePh : 0,
+                    typeWise && typeWise.professor ? typeWise.professor.averageEh : 0,
+                    typeWise && typeWise.professor ? typeWise.professor.averageMh : 0,
+                    typeWise && typeWise.professor ? typeWise.professor.averageSh : 0
+                ],
                 backgroundColor: '#FF6384',
             },
             {
-                label: 'Assistant Professor',
-                data: [30, 32, 28, 30],
+                label: 'Professor and Head',
+                data: [
+                    typeWise && typeWise.professorandhead ? typeWise.professorandhead.averagePh : 0,
+                    typeWise && typeWise.professorandhead ? typeWise.professorandhead.averageEh : 0,
+                    typeWise && typeWise.professorandhead ? typeWise.professorandhead.averageMh : 0,
+                    typeWise && typeWise.professorandhead ? typeWise.professorandhead.averageSh : 0
+                ],
                 backgroundColor: '#36A2EB',
             },
             {
-                label: 'Professor',
-                data: [25, 28, 30, 40],
+                label: 'Assistant Professor',
+                data: [
+                    typeWise && typeWise.assistantprofessor ? typeWise.assistantprofessor.averagePh : 0,
+                    typeWise && typeWise.assistantprofessor ? typeWise.assistantprofessor.averageEh : 0,
+                    typeWise && typeWise.assistantprofessor ? typeWise.assistantprofessor.averageMh : 0,
+                    typeWise && typeWise.assistantprofessor ? typeWise.assistantprofessor.averageSh : 0
+                ],
                 backgroundColor: '#FFCE56',
             },
             {
-                label: 'Professor and Head',
-                data: [32, 35, 28, 38],
-                backgroundColor: '#FF5733',
+                label: 'Associate Professor',
+                data: [
+                    typeWise && typeWise.associateprofessor ? typeWise.associateprofessor.averagePh : 0,
+                    typeWise && typeWise.associateprofessor ? typeWise.associateprofessor.averageEh : 0,
+                    typeWise && typeWise.associateprofessor ? typeWise.associateprofessor.averageMh : 0,
+                    typeWise && typeWise.associateprofessor ? typeWise.associateprofessor.averageSh : 0
+                ],
+                backgroundColor: '#4BC0C0',
             },
             {
                 label: 'Teaching Assistant',
-                data: [20, 25, 22, 30],
-                backgroundColor: '#C70039',
+                data: [
+                    typeWise && typeWise.teachingassistant ? typeWise.teachingassistant.averagePh : 0,
+                    typeWise && typeWise.teachingassistant ? typeWise.teachingassistant.averageEh : 0,
+                    typeWise && typeWise.teachingassistant ? typeWise.teachingassistant.averageMh : 0,
+                    typeWise && typeWise.teachingassistant ? typeWise.teachingassistant.averageSh : 0
+                ],
+                backgroundColor: '#FF8C00',
             },
         ],
     };
+    
     
     const options = {
         scales: {
@@ -72,35 +133,71 @@ const Teaching = () => {
         },
     };
 
+    const [ageGroupData, setAgeGroupData] = useState(null);
+
+    useEffect(() => {
+        const fetchAgeGroupData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-teaching-age-group');
+                // Assuming the response data structure matches the given example
+                // Sort the age groups by converting keys to an array, sorting them, and then reconstructing the object
+                const sortedAgeGroups = Object.keys(response.data)
+                    .sort((a, b) => {
+                        // Define custom sorting logic based on age group strings
+                        if (a === '<20') return -1;
+                        if (b === '<20') return 1;
+                        if (a === '>=60') return 1;
+                        if (b === '>=60') return -1;
+                        // For numeric ranges, parse the strings and compare
+                        const rangeA = a.split('-');
+                        const rangeB = b.split('-');
+                        const numA = parseInt(rangeA[0], 10);
+                        const numB = parseInt(rangeB[0], 10);
+                        return numA - numB;
+                    })
+                    .reduce((sortedObj, key) => {
+                        sortedObj[key] = response.data[key];
+                        return sortedObj;
+                    }, {});
+                setAgeGroupData(sortedAgeGroups);
+            } catch (error) {
+                console.error('Error fetching age group-wise average scores:', error);
+            }
+        };
+
+        fetchAgeGroupData();
+    }, []);
+
     const ageData = {
-        labels: ['20-30', '30-40', '40-50', '50-60', '60 and above'],
+        labels: Object.keys(ageGroupData || {}),
         datasets: [
             {
                 label: 'Physical',
-                data: [30, 35, 32, 28, 25],
+                data: Object.values(ageGroupData || {}).map(data => data.averagePh),
                 borderColor: '#FF6384',
                 fill: false,
             },
             {
                 label: 'Environmental',
-                data: [25, 30, 28, 25, 20],
+                data: Object.values(ageGroupData || {}).map(data => data.averageEh),
                 borderColor: '#36A2EB',
                 fill: false,
             },
             {
                 label: 'Psychological',
-                data: [28, 32, 30, 30, 28],
+                data: Object.values(ageGroupData || {}).map(data => data.averageMh),
                 borderColor: '#FFCE56',
                 fill: false,
             },
             {
                 label: 'Social',
-                data: [32, 28, 25, 28, 30],
+                data: Object.values(ageGroupData || {}).map(data => data.averageSh),
                 borderColor: '#4BC0C0',
                 fill: false,
             },
         ],
     };
+
 
     return (
         <div className="container mx-auto p-6" style={{ paddingTop: '100px' }}>
@@ -110,7 +207,26 @@ const Teaching = () => {
                 <div className="card1 bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Overall Health Pie Chart</h2>
                     <div className="chart-container">
-                        <Pie data={overallData} />
+                    {overallData ? (
+                            <Pie
+                                data={{
+                                    labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
+                                    datasets: [
+                                        {
+                                            data: [
+                                                overallData['averagePh'], 
+                                                overallData['averageEh'], 
+                                                overallData['averageMh'], 
+                                                overallData['averageSh'], 
+                                            ],
+                                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                                        },
+                                    ],
+                                }}
+                            />
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 </div>
                 

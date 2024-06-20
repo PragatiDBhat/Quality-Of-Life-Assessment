@@ -365,68 +365,183 @@ const Quiz = () => {
   //   navigate("resultpage", { state: { domainScores, totalScore } });
   // }
 
-  function handleSubmit() {
-    const domainMinScores = {
-        Overall: 2,
-        Physical: 7,
-        Psychological: 6,
-        Social: 3,
-        Environmental: 8
-    };
+//   function handleSubmit() {
+//     const domainMinScores = {
+//         Overall: 2,
+//         Physical: 7,
+//         Psychological: 6,
+//         Social: 3,
+//         Environmental: 8
+//     };
 
-    const domainMaxScores = {
-      Overall:10,
-        Physical: 35,
-        Psychological: 30,
-        Social: 15,
-        Environmental: 40
-    };
+//     const domainMaxScores = {
+//       Overall:10,
+//         Physical: 35,
+//         Psychological: 30,
+//         Social: 15,
+//         Environmental: 40
+//     };
 
-    let domainScores = {};
-    let domainCounts = {};
-    let totalScore = 0;
+//     let domainScores = {};
+//     let domainCounts = {};
+//     let totalScore = 0;
 
-    // Iterate through each question
-    for (let i = 0; i < questions.length; i++) {
-        const question = questions[i];
-        const domain = question.domain;
+//     // Iterate through each question
+//     for (let i = 0; i < questions.length; i++) {
+//         const question = questions[i];
+//         const domain = question.domain;
 
-        // Add the marks to the corresponding domain
-        if (!domainScores[domain]) {
-            domainScores[domain] = 0;
-            domainCounts[domain] = 0;
-        }
-        domainScores[domain] += question.marks;
-        domainCounts[domain]++;
-        totalScore += question.marks;
+//         // Add the marks to the corresponding domain
+//         if (!domainScores[domain]) {
+//             domainScores[domain] = 0;
+//             domainCounts[domain] = 0;
+//         }
+//         domainScores[domain] += question.marks;
+//         domainCounts[domain]++;
+//         totalScore += question.marks;
+//     }
+
+//     // Calculate percentage scores for each domain
+//    // Calculate percentage scores for each domain
+//    let domainPercentageScores = {};
+//    for (const domain in domainScores) {
+//        const domainScore = domainScores[domain];
+//        const minScore = domainMinScores[domain];
+//        const maxScore = domainMaxScores[domain];
+//        const domainCount = domainCounts[domain];
+   
+//        // Convert score to percentage with two digits after the decimal point
+//        const percentageScore = ((domainScore - minScore) / (maxScore - minScore)) * 100;
+//        const formattedPercentage = parseFloat(percentageScore.toFixed(2)); // Limit to two digits after decimal
+//        console.log(domainScore, domain);
+//        console.log(formattedPercentage, domain);
+//        domainScores[domain] = formattedPercentage; // Store formatted percentage score back to domainScores
+   
+//        domainPercentageScores[domain] = formattedPercentage; // Store formatted percentage score separately if needed
+//    }
+//    totalScore=((totalScore-26)/(104))*100;
+//    const formatted=parseFloat(totalScore.toFixed(2));
+//    totalScore=formatted;
+//    const scoreData = {
+//     eh: domainScores["Environmental"],
+//     ph: domainScores["Physical"],
+//     sh: domainScores["Social"],
+//     mh: domainScores["Psychological"],
+//     total: totalScore,
+//   };
+
+//   // Send the data to the backend
+//   fetch("http://localhost:8080/score", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(scoreData),
+//   })
+//     .then((response) => {
+//       if (response.ok) {
+//         // Navigate to result page and pass domain-wise scores and total score as props
+//         navigate("resultpage", { state: { domainScores, totalScore} });
+//       } else {
+//         return response.text().then((text) => {
+//           throw new Error(text);
+//         });
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error saving score:", error);
+//       alert("There was an error saving your score. Please try again.");
+//     });
+// }
+
+function handleSubmit() {
+  const domainMinScores = {
+    Overall: 2,
+    Physical: 7,
+    Psychological: 6,
+    Social: 3,
+    Environmental: 8
+  };
+
+  const domainMaxScores = {
+    Overall: 10,
+    Physical: 35,
+    Psychological: 30,
+    Social: 15,
+    Environmental: 40
+  };
+
+  let domainScores = {};
+  let totalScore = 0;
+
+  // Iterate through each question
+  for (let i = 0; i < questions.length; i++) {
+    const question = questions[i];
+    const domain = question.domain;
+
+    // Add the marks to the corresponding domain
+    if (!domainScores[domain]) {
+      domainScores[domain] = 0;
     }
+    domainScores[domain] += question.marks;
+    totalScore += question.marks;
+  }
 
-    // Calculate percentage scores for each domain
-   // Calculate percentage scores for each domain
-   let domainPercentageScores = {};
-   for (const domain in domainScores) {
-       const domainScore = domainScores[domain];
-       const minScore = domainMinScores[domain];
-       const maxScore = domainMaxScores[domain];
-       const domainCount = domainCounts[domain];
-   
-       // Convert score to percentage with two digits after the decimal point
-       const percentageScore = ((domainScore - minScore) / (maxScore - minScore)) * 100;
-       const formattedPercentage = parseFloat(percentageScore.toFixed(2)); // Limit to two digits after decimal
-       console.log(domainScore, domain);
-       console.log(formattedPercentage, domain);
-       domainScores[domain] = formattedPercentage; // Store formatted percentage score back to domainScores
-   
-       domainPercentageScores[domain] = formattedPercentage; // Store formatted percentage score separately if needed
-   }
-   totalScore=((totalScore-26)/(104))*100;
-   const formatted=parseFloat(totalScore.toFixed(2));
-   totalScore=formatted;
-    // Navigate to result page and pass domain-wise scores, total score, and domain percentage scores as props
-    navigate("resultpage", { state: { domainScores, totalScore} });
+  // Calculate percentage scores for each domain
+  let domainPercentageScores = {};
+  for (const domain in domainScores) {
+    const domainScore = domainScores[domain];
+    const minScore = domainMinScores[domain];
+    const maxScore = domainMaxScores[domain];
+    
+    // Ensure domainScore is at least minScore
+    const adjustedScore = Math.max(domainScore, minScore);
+    
+    // Convert score to percentage
+    const percentageScore = ((adjustedScore - minScore) / (maxScore - minScore)) * 100;
+    const formattedPercentage = parseFloat(percentageScore.toFixed(2)); // Limit to two digits after decimal
+    console.log(domainScore, domain);
+    console.log(formattedPercentage, domain);
+    domainScores[domain] = formattedPercentage; // Store formatted percentage score back to domainScores
+  }
+  
+  // Calculate total score percentage
+  totalScore = ((totalScore - 26) / 104) * 100;
+  const formattedTotal = parseFloat(totalScore.toFixed(2));
+  totalScore = formattedTotal;
+
+  const scoreData = {
+    eh: domainScores["Environmental"],
+    ph: domainScores["Physical"],
+    sh: domainScores["Social"],
+    mh: domainScores["Psychological"],
+    total: totalScore,
+  };
+
+  // Send the data to the backend
+  fetch("http://localhost:8080/score", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(scoreData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Navigate to result page and pass domain-wise scores and total score as props
+        navigate("resultpage", { state: { domainScores, totalScore } });
+      } else {
+        return response.text().then((text) => {
+          throw new Error(text);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error saving score:", error);
+      alert("There was an error saving your score. Please try again.");
+    });
 }
 
-  
   function onSelect(i) {
     setChecked(i);
     question.marks = question.options[i].score;

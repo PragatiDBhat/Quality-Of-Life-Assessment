@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Service from "../services/service"; // Corrected import path
 
 export const Register = () => {
   // State variables to store form data
@@ -15,7 +16,7 @@ export const Register = () => {
     degree: "",
     semester: "",
     gender: "",
-    occupation:"student",
+    occupation: "student",
   });
 
   // Function to handle form input changes
@@ -25,15 +26,39 @@ export const Register = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log(formData);
+    try {
+      // Call the addStudent function to send the form data to the backend
+      const service = new Service(); // Create an instance of the Service class
+const response = await service.addStudent(formData); // Call addStudent from the instance
+      console.log("Student registered successfully:", response.data);
+      // Clear the form fields after successful registration
+      setFormData({
+        name: "",
+        email: "",
+        usn: "",
+        password: "",
+        repeatPassword: "",
+        dob: "",
+        age: "",
+        status: "",
+        degree: "",
+        semester: "",
+        gender: "",
+        occupation: "student",
+      });
+    } catch (error) {
+      console.error("Error registering student:", error);
+      alert("Email already registered");
+    }
   };
+
+  // Function to populate degree options based on status
   const populateDesignationOptions = () => {
     const { status } = formData;
     switch (status) {
-      case 'graduate':
+      case "graduate":
         return (
           <>
             <option value="">Select degree</option>
@@ -42,7 +67,7 @@ export const Register = () => {
             <option value="mba">MBA</option>
           </>
         );
-      case 'undergraduate':
+      case "undergraduate":
         return (
           <>
             <option value="">Select degree</option>
@@ -56,6 +81,7 @@ export const Register = () => {
         return <option value="">Select degree</option>;
     }
   };
+
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

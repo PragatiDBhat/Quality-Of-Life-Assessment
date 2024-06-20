@@ -1,59 +1,126 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import '../App.css';
-
+import axios from 'axios';
 const OfficeStaff = () => {
     // Sample data for demonstration purposes
-    const overallData = {
-        labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
-        datasets: [
-            {
-                data: [30, 20, 25, 25],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-            },
-        ],
-    };
+    const [overallData, setOverallData] = useState(null);
+    const [genderWise, setGenderWise] = useState(null);
+    useEffect(() => {
+        const fetchOverallData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-office-staff');
+                setOverallData(response.data);
+            } catch (error) {
+                console.error('Error fetching overall average scores:', error);
+            }
+        };
+
+        fetchOverallData();
+    }, []);
+
+    useEffect(() => {
+        const fetchGenderData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-office-staff-gender-wise');
+                setGenderWise(response.data);
+            } catch (error) {
+                console.error('Error fetching gender-wise average scores:', error);
+            }
+        };
+
+        fetchGenderData();
+    }, []);
 
     const genderData = {
         labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
         datasets: [
             {
                 label: 'Male',
-                data: [40, 25, 30, 35],
+                data: genderWise && genderWise.male
+                    ? [genderWise.male.averagePh, genderWise.male.averageEh, genderWise.male.averageMh, genderWise.male.averageSh]
+                    : [0, 0, 0, 0],
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
             },
             {
                 label: 'Female',
-                data: [35, 30, 28, 32],
+                data: genderWise && genderWise.female
+                    ? [genderWise.female.averagePh, genderWise.female.averageEh, genderWise.female.averageMh, genderWise.female.averageSh]
+                    : [0, 0, 0, 0],
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
             },
         ],
     };
+    const options = {
+        scales: {
+            x: {
+                stacked: false,
+            },
+            y: {
+                stacked: false,
+            },
+        },
+    };
+
+    const [ageGroupData, setAgeGroupData] = useState(null);
+
+    useEffect(() => {
+        const fetchAgeGroupData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/average-scores-office-staff-age-group');
+                // Assuming the response data structure matches the given example
+                // Sort the age groups by converting keys to an array, sorting them, and then reconstructing the object
+                const sortedAgeGroups = Object.keys(response.data)
+                    .sort((a, b) => {
+                        // Define custom sorting logic based on age group strings
+                        if (a === '<20') return -1;
+                        if (b === '<20') return 1;
+                        if (a === '>=60') return 1;
+                        if (b === '>=60') return -1;
+                        // For numeric ranges, parse the strings and compare
+                        const rangeA = a.split('-');
+                        const rangeB = b.split('-');
+                        const numA = parseInt(rangeA[0], 10);
+                        const numB = parseInt(rangeB[0], 10);
+                        return numA - numB;
+                    })
+                    .reduce((sortedObj, key) => {
+                        sortedObj[key] = response.data[key];
+                        return sortedObj;
+                    }, {});
+                setAgeGroupData(sortedAgeGroups);
+            } catch (error) {
+                console.error('Error fetching age group-wise average scores:', error);
+            }
+        };
+
+        fetchAgeGroupData();
+    }, []);
 
     const ageData = {
-        labels: ['20-30', '30-40', '40-50', '50-60', '60 and above'],
+        labels: Object.keys(ageGroupData || {}),
         datasets: [
             {
                 label: 'Physical',
-                data: [30, 35, 32, 28, 25],
+                data: Object.values(ageGroupData || {}).map(data => data.averagePh),
                 borderColor: '#FF6384',
                 fill: false,
             },
             {
                 label: 'Environmental',
-                data: [25, 30, 28, 25, 20],
+                data: Object.values(ageGroupData || {}).map(data => data.averageEh),
                 borderColor: '#36A2EB',
                 fill: false,
             },
             {
                 label: 'Psychological',
-                data: [28, 32, 30, 30, 28],
+                data: Object.values(ageGroupData || {}).map(data => data.averageMh),
                 borderColor: '#FFCE56',
                 fill: false,
             },
             {
                 label: 'Social',
-                data: [32, 28, 25, 28, 30],
+                data: Object.values(ageGroupData || {}).map(data => data.averageSh),
                 borderColor: '#4BC0C0',
                 fill: false,
             },
@@ -68,7 +135,26 @@ const OfficeStaff = () => {
                 <div className="card1 bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Overall Health Pie Chart</h2>
                     <div className="chart-container">
-                        <Pie data={overallData} />
+                    {overallData ? (
+                            <Pie
+                                data={{
+                                    labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
+                                    datasets: [
+                                        {
+                                            data: [
+                                                overallData['averagePh'], 
+                                                overallData['averageEh'], 
+                                                overallData['averageMh'], 
+                                                overallData['averageSh'], 
+                                            ],
+                                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                                        },
+                                    ],
+                                }}
+                            />
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 </div>
                 

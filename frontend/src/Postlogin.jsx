@@ -25,6 +25,8 @@ import EditProfile from './components/EditProfile';
 import Feedback from './components/Feedback';
 import Graduate from './components/Graduate';
 import Undergraduate from './components/Undergraduate';
+import EditprofileStudent from './components/EditprofileStudent';
+import NavigateEdit from './components/NavigateEdit';
 
 // Import other post-login components here
 
@@ -50,6 +52,8 @@ function PostLogin() {
       <Route path='/myscores' element={<MyScores/>}/>
       <Route path='/comparison' element={<Comparison />}/>
       <Route path='/editprofile' element={<EditProfile />}/>
+      <Route path='/editprofilestudent' element={<EditprofileStudent />}/>
+      <Route path='/navigate' element={<NavigateEdit />}/>
       <Route path='/feedback' element={<Feedback />} />
     </Routes>
     </>

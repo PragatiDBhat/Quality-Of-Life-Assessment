@@ -1,16 +1,28 @@
-// Login.jsx
-
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom"; // Import NavLink and useNavigate from react-router-dom
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import Service from "../services/service"; // Import the service instance
 
 export const Login = () => {
   const navigate = useNavigate(); // Initialize navigate
-  
+  const [email, setEmail] = useState(""); // State for email
+  const [password, setPassword] = useState(""); // State for password
+
   // Function to handle login
-  const handleLogin = () => {
-    // Perform login logic here
-    // For example, if login is successful, navigate to the home page ("/")
-    navigate("/postlogin"); // Navigate to home page
+  const handleLogin = async () => {
+    try {
+      const studentCheck = { email, password };
+      const service = new Service(); // Create an instance of the Service class
+      const response = await service.checkStudent(studentCheck);
+      if (response.status === 200) {
+        // If login is successful, navigate to the post-login page
+        navigate("/postlogin");
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Please Check Username or Password");
+    }
   };
 
   return (
@@ -32,19 +44,22 @@ export const Login = () => {
         {/* Right Column */}
         <div className="flex flex-col justify-center items-center bg-gray-100 py-10 px-8 rounded-r-3xl">
           <h1 className="text-3xl font-bold mb-8">LOGIN</h1>
-          <form className="w-full max-w-md">
+          <form className="w-full max-w-md" onSubmit={(e) => e.preventDefault()}>
             <div className="mb-4">
               <label
-                htmlFor="username"
+                htmlFor="email"
                 className="block text-gray-700 font-bold mb-2"
               >
-                USN
+                Email
               </label>
               <input
-                type="text"
-                id="usn"
+                type="email"
+                id="email"
                 className="form-control w-full md:w-auto px-4 py-2"
-                placeholder="Enter your username"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-6">
@@ -59,6 +74,9 @@ export const Login = () => {
                 id="password"
                 className="form-control w-full md:w-auto px-4 py-2"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="flex items-center justify-between">
@@ -76,3 +94,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default Login;

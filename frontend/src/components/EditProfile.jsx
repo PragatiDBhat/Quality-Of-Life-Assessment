@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const EditProfile = () => {
   // State variables to store form data
@@ -18,6 +18,26 @@ const EditProfile = () => {
     designation: '',
   });
 
+  // Fetch the existing teacher details on component mount
+  useEffect(() => {
+    const fetchTeacherDetails = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/teacher/displayteacher');
+        if (response.status === 200) {
+          setFormData({
+            ...response.data,
+            password: '',
+            repeatPassword: '',
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching teacher details:', error);
+      }
+    };
+
+    fetchTeacherDetails();
+  }, []);
+
   // Function to handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,10 +45,26 @@ const EditProfile = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log(formData);
+    if (formData.password !== formData.repeatPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    try {
+      const updatedTeacher = { ...formData };
+      delete updatedTeacher.repeatPassword;
+
+      const response = await axios.put('http://localhost:8080/teacher/update', updatedTeacher);
+      if (response.status === 200) {
+        alert('Teacher information updated successfully');
+      } else {
+        console.error('Error updating teacher information:', response);
+      }
+    } catch (error) {
+      console.error('Error updating teacher information:', error);
+    }
   };
 
   // Function to dynamically populate designation options based on university role
@@ -70,7 +106,6 @@ const EditProfile = () => {
   return (
     <div className="container mx-auto my-10 px-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl" style={{ paddingTop: '100px' }}>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-10">
-        {/* Left Column */}
         <div className="flex flex-col justify-center items-center bg-secondary py-10 px-8 rounded-l-3xl">
           <h1 className="text-3xl font-bold mb-4">Edit Profile</h1>
           <form className="w-full max-w-md" onSubmit={handleSubmit}>
@@ -104,6 +139,7 @@ const EditProfile = () => {
                 className="form-control w-full px-4 py-2"
                 placeholder="Enter your email"
                 required
+                disabled
               />
             </div>
             {/* Employee ID */}

@@ -4,6 +4,7 @@ import { TiThMenu } from "react-icons/ti";
 import { FaTimes } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
+import axios from 'axios'; 
 export const Navbar2 = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isStatisticDropdownOpen, setStatisticDropdownOpen] = useState(false);
@@ -14,6 +15,7 @@ export const Navbar2 = () => {
 
     const toggleMenuOpen = () => {
         setMenuOpen(!isMenuOpen);
+        handleLogout();
     };
 
     const toggleDropdownDesktop = (dropdownType) => {
@@ -90,6 +92,15 @@ export const Navbar2 = () => {
             document.removeEventListener('mousedown', closeDropdowns);
         };
     }, []);
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/logout');
+            console.log(response.data); // Optional: Log the response
+            // Perform any additional logout actions as needed
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
 
     return (
         <>
@@ -149,7 +160,7 @@ export const Navbar2 = () => {
                             </button>
                             <ul ref={profileDropdownRef} className={`absolute top-full right-0 bg-white shadow-md rounded-md py-1 mt-1 px-3 ${isProfileDropdownOpen ? 'block' : 'hidden'}`} style={{ width: "180px" }}>
                                 <li>
-                                    <Link to="editprofile" className="block px-4 py-2 hover:bg-gray-100">Edit Profile</Link>
+                                    <Link to="navigate" className="block px-4 py-2 hover:bg-gray-100">Edit Profile</Link>
                                 </li>
                                 <li>
                                     <Link to="settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
@@ -180,7 +191,7 @@ export const Navbar2 = () => {
                 <Link to="undergraduate" className="block px-4 py-2 hover:bg-gray-100">Undergraduate</Link>
                 <Link to="myscores" className="block px-4 py-2 hover:bg-gray-100">My Scores</Link>
                 <Link to="comparison" className="block px-4 py-2 hover:bg-gray-100">Comparison</Link>
-                <Link to="editprofile" className="block px-4 py-2 hover:bg-gray-100">Edit Profile</Link>
+                <Link to="navigate" className="block px-4 py-2 hover:bg-gray-100">Edit Profile</Link>
                 <Link to="/" className='block text-white hover:text-gray-300' onClick={toggleMenuOpen}>Logout</Link>
             </div>
         </>
