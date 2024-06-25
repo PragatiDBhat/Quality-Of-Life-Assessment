@@ -21,18 +21,6 @@ const Overall = () => {
     }, []);
 
     useEffect(() => {
-        const fetchGenderData = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/gender-wise-average-scores');
-                setGenderWise(response.data);
-            } catch (error) {
-                console.error('Error fetching gender-wise average scores:', error);
-            }
-        };
-
-        fetchGenderData();
-    }, []);
-    useEffect(() => {
         const fetchTypeData = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/type-wise-average-scores');
@@ -44,6 +32,22 @@ const Overall = () => {
 
         fetchTypeData();
     }, []);
+    useEffect(() => {
+        const fetchGenderData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/gender-wise-average-scores');
+                setGenderWise(response.data);
+            } catch (error) {
+                console.error('Error fetching gender-wise average scores:', error);
+            }
+        };
+
+        fetchGenderData();
+    }, []);
+
+    // Check if genderWise data has loaded, and debug if necessary
+    console.log('genderWise:', genderWise);
+
     const genderData = {
         labels: ['Physical', 'Environmental', 'Psychological', 'Social'],
         datasets: [
@@ -52,14 +56,14 @@ const Overall = () => {
                 data: genderWise && genderWise.male
                     ? [genderWise.male.averagePh, genderWise.male.averageEh, genderWise.male.averageMh, genderWise.male.averageSh]
                     : [0, 0, 0, 0],
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
             },
             {
                 label: 'Female',
-                data: genderWise && genderWise.female
-                    ? [genderWise.female.averagePh, genderWise.female.averageEh, genderWise.female.averageMh, genderWise.female.averageSh]
+                data: genderWise && genderWise.Female // Correct case for 'Female'
+                    ? [genderWise.Female.averagePh, genderWise.Female.averageEh, genderWise.Female.averageMh, genderWise.Female.averageSh]
                     : [0, 0, 0, 0],
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
             },
         ],
     };

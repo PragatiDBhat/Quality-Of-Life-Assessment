@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import Service from '../services/service'; // Import the Service class
+import axios from 'axios'; // Import Axios
 
 const RegisterTeacher = () => {
-  const service = new Service(); // Create an instance of the Service class
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,7 +16,6 @@ const RegisterTeacher = () => {
     gender: '',
     university_role: '',
     designation: '',
-    occupation: "teacher",
   });
 
   const handleChange = (e) => {
@@ -29,22 +26,37 @@ const RegisterTeacher = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.repeatPassword) {
-      alert("Passwords do not match");
+      alert('Passwords do not match');
       return;
     }
 
+    // Convert age to number
+    formData.age = parseInt(formData.age);
+
     try {
-      const service = new Service(); // Create an instance of the Service class
-      const response = await service.addTeacher(formData);
-      console.log('Teacher registered successfully', response);
+      const response = await axios.post('http://localhost:8080/teacher/register', formData);
+      console.log('Teacher registered successfully', response.data);
       // Handle success (e.g., show a success message or redirect to another page)
+      alert('Teacher registered successfully');
+      // Optionally, redirect to login page or another route
     } catch (error) {
       console.error('Error registering teacher', error);
-      // Handle error (e.g., show an error message)
-      alert("Email already registered");
+      if (error.response && error.response.status === 409) {
+        alert('Email already registered');
+      } else {
+        alert('Error registering teacher. Please try again later.');
+      }
+    } finally {
+      // Clear password fields
+      setFormData({
+        ...formData,
+        password: '',
+        repeatPassword: ''
+      });
     }
   };
-
+  
+  
   const populateDesignationOptions = () => {
     const { university_role } = formData;
     switch (university_role) {
@@ -52,27 +64,27 @@ const RegisterTeacher = () => {
         return (
           <>
             <option value="">Select designation</option>
-            <option value="Associate Professor">Associate Professor</option>
-            <option value="Assistant Professor">Assistant Professor</option>
-            <option value="Professor">Professor</option>
-            <option value="Professor & Head">Professor & Head</option>
-            <option value="Teaching Assistant(T.A.)">Teaching Assistant(T.A.)</option>
+            <option value="associateprofessor">Associate Professor</option>
+            <option value="assistantprofessor">Assistant Professor</option>
+            <option value="professor">Professor</option>
+            <option value="professorandhead">Professor & Head</option>
+            <option value="teachingassistant">Teaching Assistant(T.A.)</option>
           </>
         );
       case 'non-teaching':
         return (
           <>
             <option value="">Select designation</option>
-            <option value="Foreman">Foreman</option>
-            <option value="Instructor">Instructor</option>
-            <option value="Assistant Instructor">Assistant Instructor</option>
+            <option value="foreman">Foreman</option>
+            <option value="instructor">Instructor</option>
+            <option value="assistantinstructor">Assistant Instructor</option>
           </>
         );
       case 'office-staff':
         return (
           <>
             <option value="">Select designation</option>
-            <option value="Attenders">Attenders</option>
+            <option value="attender">Attenders</option>
           </>
         );
       default:
@@ -213,9 +225,9 @@ const RegisterTeacher = () => {
                 required
               >
                 <option value="">Select your gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
             </div>
             <div className="mb-4">

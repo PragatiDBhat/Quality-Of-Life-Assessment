@@ -53,14 +53,14 @@ const OverallFaculty = () => {
                 data: genderWise && genderWise.male
                     ? [genderWise.male.averagePh, genderWise.male.averageEh, genderWise.male.averageMh, genderWise.male.averageSh]
                     : [0, 0, 0, 0],
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
             },
             {
                 label: 'Female',
                 data: genderWise && genderWise.female
                     ? [genderWise.female.averagePh, genderWise.female.averageEh, genderWise.female.averageMh, genderWise.female.averageSh]
                     : [0, 0, 0, 0],
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
             },
         ],
     };

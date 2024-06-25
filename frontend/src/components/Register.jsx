@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Service from "../services/service"; // Corrected import path
+import axios from 'axios'; // Import Axios
 
 export const Register = () => {
   // State variables to store form data
@@ -16,43 +16,46 @@ export const Register = () => {
     degree: "",
     semester: "",
     gender: "",
-    occupation: "student",
   });
 
-  // Function to handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.repeatPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    // Convert age to number
+    formData.age = parseInt(formData.age);
+
     try {
-      // Call the addStudent function to send the form data to the backend
-      const service = new Service(); // Create an instance of the Service class
-const response = await service.addStudent(formData); // Call addStudent from the instance
-      console.log("Student registered successfully:", response.data);
-      // Clear the form fields after successful registration
-      setFormData({
-        name: "",
-        email: "",
-        usn: "",
-        password: "",
-        repeatPassword: "",
-        dob: "",
-        age: "",
-        status: "",
-        degree: "",
-        semester: "",
-        gender: "",
-        occupation: "student",
-      });
+      const response = await axios.post('http://localhost:8080/student/register', formData);
+      console.log('Student registered successfully', response.data);
+      // Handle success (e.g., show a success message or redirect to another page)
+      alert('Student registered successfully');
+      // Optionally, redirect to login page or another route
     } catch (error) {
-      console.error("Error registering student:", error);
-      alert("Email already registered");
+      console.error('Error registering student', error);
+      if (error.response && error.response.status === 409) {
+        alert('Email already registered');
+      } else {
+        alert('Error registering teacher. Please try again later.');
+      }
+    } finally {
+      // Clear password fields
+      setFormData({
+        ...formData,
+        password: '',
+        repeatPassword: ''
+      });
     }
   };
+
 
   // Function to populate degree options based on status
   const populateDesignationOptions = () => {

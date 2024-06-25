@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 
 const MyScores = () => {
     const [scores, setScores] = useState([]);
 
-    // Fetch data from backend upon component mount
     useEffect(() => {
         const fetchScores = async () => {
             try {
@@ -17,11 +16,10 @@ const MyScores = () => {
         };
 
         fetchScores();
-    }, []); // Empty dependency array ensures the effect runs only once on mount
+    }, []);
 
-    // Data structure for chart initialization
     const chartData = {
-        labels: scores.map(score => score.time), // Use 'time' as labels (you may need to format this as per your requirement)
+        labels: scores.map(score => score.time),
         datasets: [
             {
                 label: 'Physical',
@@ -74,11 +72,13 @@ const MyScores = () => {
     };
 
     return (
-        <div className="container mx-auto p-6" style={{ paddingTop: '100px' }}>
+        <div className="container mx-auto p-6" style={{ paddingTop: '100px', minWidth: '600px' }}>
             <h1 className="text-3xl font-bold mb-6">Domain Scores Over Time</h1>
             <div className="bg-white p-6 rounded-lg shadow-md">
                 {scores.length > 0 ? (
-                    <Bar data={chartData} options={options} />
+                    <div style={{ height: '400px' }}>
+                        <Bar data={chartData} options={options} />
+                    </div>
                 ) : (
                     <p>No scores found for the authenticated user</p>
                 )}
