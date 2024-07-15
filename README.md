@@ -40,3 +40,8 @@ QOLA Application uses React for frontend, Java with Spring Boot for backend, and
 - MS SQL Server Driver
 
 
+
+## Here is the working of this project
+
+[![Watch Video](https://github.com/PragatiDBhat/Quality-Of-Life-Assessment/blob/main/QOLA-HomePage.png)](https://github.com/PragatiDBhat/Quality-Of-Life-Assessment/blob/main/QOLA.mp4)
+
